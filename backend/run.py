@@ -6,8 +6,9 @@ load_dotenv()
 
 from app import create_app
 
-# Obtiene el nombre de la configuración (dev, prod) desde las variables de entorno
-config_name = os.getenv('FLASK_ENV', 'default')
+# Obtiene el nombre de la configuración (development, production) desde las variables de entorno
+config_name = os.getenv('FLASK_ENV', 'production')
+print(f"Starting app with config: {config_name}")
 app = create_app(config_name)
 
 if __name__ == '__main__':

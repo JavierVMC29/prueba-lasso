@@ -7,6 +7,8 @@ from marshmallow import fields
 class GrantInputSchema(ma.Schema):
     grant_name = fields.Str(required=True)
     grant_description = fields.Str(required=True)
+    website_urls = fields.List(fields.Str(), required=False, allow_none=True)
+    document_urls = fields.List(fields.Str(), required=False, allow_none=True)
 
 
 # Esquema para serializar (convertir a JSON) un objeto Tag

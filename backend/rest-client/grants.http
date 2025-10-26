@@ -2,3 +2,26 @@
 
 ### Get all grants
 GET {{base_url}}/grants
+
+
+### Get grant by id
+GET {{base_url}}/grants/2
+
+
+### Create a new grant
+POST {{base_url}}/grants
+Content-Type: application/json
+
+[
+    {
+      "grant_name": "New Grant",
+      "grant_description": "This is a new grant."
+    },
+    {
+      "grant_name": "New Grant",
+      "grant_description": "This is a new grant."
+    }
+]
+
+### Delete all grants
+DELETE {{base_url}}/grants/clear-all

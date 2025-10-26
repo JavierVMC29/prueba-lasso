@@ -1,0 +1,14 @@
+# Ignorar dependencias y archivos de build
+node_modules
+dist
+build
+coverage
+
+# Ignorar archivos de lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Archivos de entorno
+.env
+.env.*

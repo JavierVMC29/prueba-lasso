@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* Desactivar el icono nativo de mostrar contraseña */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none;
+}
+
+@theme {
+  --color-primary-50: #f1fafa;
+  --color-primary-100: #daf1f3;
+  --color-primary-200: #bae2e7;
+  --color-primary-300: #8acdd6;
+  --color-primary-400: #53afbd;
+  --color-primary-500: #3793a3;
+  --color-primary-600: #317889;
+  --color-primary-700: #2d6271;
+  --color-primary-800: #2d5460;
+  --color-primary-900: #284651;
+  --color-primary-950: #162d36;
+
+  --color-bg: #f9fafb;
+}
