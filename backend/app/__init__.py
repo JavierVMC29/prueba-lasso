@@ -27,10 +27,4 @@ def create_app(config_name='default'):
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')
 
-    # 4. Create database tables (if they don't exist)
-    # With PostgreSQL, is better to use migrations.
-    # You can comment this out if using migrations.
-    with app.app_context():
-        db.create_all() # Only create tables if they don't exist
-
     return app
