@@ -1,0 +1,4 @@
+@base_url=http://localhost:5000/api
+
+### Get all grants
+GET {{base_url}}/grants

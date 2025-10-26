@@ -1,0 +1,42 @@
+name: prueba_lasso
+
+services:
+  prueba_lasso:
+    build: .
+    image: prueba_lasso:latest
+    container_name: prueba_lasso
+    ports:
+      - "127.0.0.1:${PORT}:3000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - prueba_lasso_postgres
+    networks:
+      - prueba_lasso_network
+
+  prueba_lasso_postgres:
+    container_name: prueba_lasso_postgres
+    image: postgres:17.4-alpine3.21
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_DB_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
+      PGPORT: ${POSTGRES_DB_PORT}
+    ports:
+      - '${POSTGRES_DB_PORT}:${POSTGRES_DB_PORT}'
+    volumes:
+      - prueba_lasso_postgres_data:/var/lib/postgresql/data
+    networks:
+      - prueba_lasso_network
+    env_file:
+      - .env
+
+volumes:
+  prueba_lasso_postgres_data:
+
+networks:
+  prueba_lasso_network:
+    driver: bridge

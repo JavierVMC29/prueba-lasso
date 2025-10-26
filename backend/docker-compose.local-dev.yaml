@@ -1,0 +1,21 @@
+name: prueba_lasso_local
+
+services:
+  prueba_lasso_local_postgres:
+    container_name: prueba_lasso_local_postgres
+    image: postgres:17.4-alpine3.21
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_DB_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
+      PGPORT: ${POSTGRES_DB_PORT}
+    ports:
+      - '${POSTGRES_DB_PORT}:${POSTGRES_DB_PORT}'
+    volumes:
+      - prueba_lasso_local_postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+volumes:
+  prueba_lasso_local_postgres_data:
