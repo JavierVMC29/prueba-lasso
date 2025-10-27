@@ -36,7 +36,11 @@ export const TextArea = ({ id, register, error, label, ...textAreaProps }: TextA
         />
       </div>
       {/* Muestra el mensaje de error de validación si existe */}
-      {error && <p className="text-red-600 text-sm mt-1">{error.message}</p>}
+      {error && (
+        <p data-testid={`${id}-error`} className="text-red-600 text-sm mt-1">
+          {error.message}
+        </p>
+      )}
     </div>
   );
 };

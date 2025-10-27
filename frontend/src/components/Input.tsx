@@ -28,7 +28,11 @@ export const Input = ({ id, register, error, icon, ...inputProps }: InputProps) 
         />
         {icon && <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">{icon}</div>}
       </div>
-      {error && <p className="text-red-600 text-sm mt-1">{error.message}</p>}
+      {error && (
+        <p data-testid={`${id}-error`} className="text-red-600 text-sm mt-1">
+          {error.message}
+        </p>
+      )}
     </>
   );
 };

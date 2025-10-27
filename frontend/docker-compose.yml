@@ -1,7 +1,7 @@
 services:
-  ventanilla-publica:
-    container_name: ventanilla-publica
-    image: ventanilla-publica:latest
+  prueba-lasso:
+    container_name: prueba-lasso
+    image: prueba-lasso:latest
     environment:
       - TZ=America/Guayaquil
     ports:

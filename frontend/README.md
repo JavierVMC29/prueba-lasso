@@ -1,77 +1,118 @@
-# DAULE Frontend
+# Grant Tagging System - Frontend
 
-## Requisitos previos
+This README documents the steps necessary to set up and run the frontend application locally, as well as how to execute end-to-end tests.
 
-1. Tener instalado Node.js 20.10.0 o superior
-2. Tener instalado pnpm
+## Prerequisites
 
-## Como levantar en local
+1.  **Node.js:** Version `20.10.0` or higher is required. You can download it from [nodejs.org](https://nodejs.org/).
+2.  **pnpm:** This project uses `pnpm` as the package manager. If you don't have it, install it globally (after installing Node.js):
+    ```bash
+    npm install -g pnpm
+    ```
 
-Crea un archivo `.env` y copia el contenido del archivo `.env.example`
+## Local Development Setup
 
-Instala las dependencias:
+1.  **Environment Variables:**
 
-```bash
-pnpm install --frozen-lockfile
-```
+    - Copy the `.env.example` file to a new file named `.env`.
+    - Update the variables in `.env` if necessary (e.g., `VITE_API_BASE_URL` should point to your running backend, typically `http://localhost:5000/api`).
 
-Levanta el proyecto en modo desarrollo:
+2.  **Install Dependencies:**
 
-```bash
-pnpm run dev
-```
+    - Navigate to the `frontend` directory in your terminal.
+    - Install the exact dependencies specified in the lockfile:
+      ```bash
+      pnpm install --frozen-lockfile
+      ```
 
-### Como agregar nuevas dependencias
+3.  **Run Development Server:**
+    - Start the Vite development server:
+      ```bash
+      pnpm run dev
+      ```
+    - The application should now be running, usually at `http://localhost:5173` (or the next available port). Vite will show the exact URL in the terminal. **Keep this server running if you plan to run Cypress tests.**
 
-Para agregar una nueva dependencia:
+## Running End-to-End Tests (Cypress)
 
-```bash
-pnpm add -E <nombre-de-la-libreria>
-```
+1.  **Test Environment Variables:**
 
-Para agregar una nueva dependencia de desarrollo:
+    - Create a new file named `.env.test` in the `frontend` directory.
+    - Copy the contents of `.env.example` into `.env.test`.
+    - **Important:** Adjust the variables in `.env.test` if your test environment requires different settings (e.g., a different API URL for a test backend). Usually, it can be the same as `.env` for local testing against the development backend.
 
-```bash
-pnpm add -E -D <nombre-de-la-libreria>
-```
+2.  **Ensure Application is Running:**
 
-- El `-E` sirve para instalar una version exacta.
-- El `-D` sirve para isntalar dependencias de desarrollo.
+    - Make sure your frontend development server is running. You should have executed `pnpm run dev` in a separate terminal.
+    - Make sure your backend server is also running.
 
-## Como desplegar
+3.  **Open Cypress Test Runner:**
+    - In a new terminal (in the `frontend` directory), run:
+      ```bash
+      pnpm run cy:open
+      ```
+    - This command will open the Cypress application, allowing you to select and run the end-to-end tests interactively.
 
-Haz el build del proyecto:
+## Adding Dependencies
 
-```bash
-pnpm run build
-```
+- **To add a new runtime dependency:**
+  ```bash
+  # Example: pnpm add -E react-router-dom
+  pnpm add -E <library-name>
+  ```
+- **To add a new development dependency:**
+  ```bash
+  # Example: pnpm add -E -D @types/react-router-dom
+  pnpm add -E -D <library-name>
+  ```
+- **Notes:**
+  - The `-E` flag ensures the exact version specified is added to `package.json`.
+  - The `-D` flag saves the dependency under `devDependencies`.
 
-Esto generara los archivos estaticos en la carpeta `dist`
+## Building for Production
 
-Estos archivos los puedes subir al servidor donde vayas a desplegar.
+1.  **Generate Static Build:**
+
+    - Run the build script:
+      ```bash
+      pnpm run build
+      ```
+    - This command will compile the React application and output the optimized static assets (HTML, CSS, JavaScript) into the `dist` folder.
+
+2.  **Deployment:**
+    - Deploy the contents of the `dist` folder to your static web hosting provider (e.g., Vercel, Netlify, AWS S3/CloudFront, Nginx, Apache).
 
 ---
 
-## SonarQube
+## Code Quality Analysis (SonarQube - Optional)
 
-Para realizar un análisis estático del código en tu máquina local, sigue estas instrucciones:
+To perform a static code analysis on your local machine using SonarQube:
 
-1.  Levanta el contenedor de SonarQube con Docker:
-    ```bash
-    docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest
-    ```
-2.  Accede a [http://localhost:9000](http://localhost:9000) con las credenciales por defecto:
-    - **Usuario:** `admin`
-    - **Clave:** `admin`
-3.  Genera un token de acceso de usuario en My Account > Security > User Token.
-4.  Añade el token generado a tu archivo de entorno de desarrollo (ej. `.env`):
-    ```
-    SONAR_TOKEN=<pega_aqui_tu_token>
-    ```
-5.  Ejecuta el script de análisis desde la raíz del proyecto:
-    ```bash
-    node sonarqube.js
-    ```
-    Los resultados estarán disponibles en tu instancia local de SonarQube. Para más información, consulta la [documentación oficial](https://docs.sonarsource.com/sonarqube/latest/try-out-sonarqube/).
+1.  **Run SonarQube Container:**
+    - Make sure you have Docker installed.
+    - Start the SonarQube container:
+      ```bash
+      docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest
+      ```
+2.  **Access SonarQube UI:**
+    - Open [http://localhost:9000](http://localhost:9000) in your browser.
+    - Log in with the default credentials:
+      - **Username:** `admin`
+      - **Password:** `admin`
+      - You will be prompted to change the password on the first login.
+3.  **Generate User Token:**
+    - Navigate to **My Account** > **Security**.
+    - Generate a new user token. Copy this token.
+4.  **Configure Environment:**
+    - Add the generated token to your local `.env` file:
+      ```env
+      SONAR_TOKEN=<paste_your_token_here>
+      ```
+5.  **Run Analysis Script:**
+    - Execute the analysis script from the root of the `frontend` project:
+      ```bash
+      node sonarqube.js
+      ```
+    - The analysis results will be available in your local SonarQube instance at [http://localhost:9000](http://localhost:9000).
+    - For more details, refer to the [official SonarQube documentation](https://docs.sonarsource.com/sonarqube/latest/try-out-sonarqube/).
 
 ---

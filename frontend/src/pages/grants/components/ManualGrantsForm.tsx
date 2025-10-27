@@ -63,7 +63,8 @@ export const ManualGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) => {
         <div key={field.id} className="p-4 border border-slate-200 rounded-lg space-y-4 relative">
           <h3 className="font-medium text-slate-600">Grant #{index + 1}</h3>
           <TextInput
-            id={`grant_name_${field.id}`}
+            data-testid={`grant-name-${index}`}
+            id={`grant_name_${index}`}
             label="Grant Name"
             type="text"
             placeholder="e.g., Sustainable Agriculture Research Grant"
@@ -73,7 +74,8 @@ export const ManualGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) => {
           />
 
           <TextArea
-            id={`grant_description_${field.id}`}
+            data-testid={`grant-description-${index}`}
+            id={`grant_description_${index}`}
             label="Grant Description"
             rows={4}
             placeholder="Funding for projects that promote organic farming..."
@@ -83,7 +85,7 @@ export const ManualGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) => {
           />
 
           {fields.length > 1 && (
-            <Button type="button" variant="danger" onClick={() => remove(index)} className="absolute top-3 right-3 !w-auto !p-2" aria-label={`Remove Grant #${index + 1}`}>
+            <Button data-testid={`remove-grant-${index}`} type="button" variant="danger" onClick={() => remove(index)} className="absolute top-3 right-3 !w-auto !p-2" aria-label={`Remove Grant #${index + 1}`}>
               <Trash2 className="w-4 h-4" />
             </Button>
           )}
@@ -92,10 +94,10 @@ export const ManualGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) => {
 
       {/* Add/Submit Buttons */}
       <div className="flex flex-col sm:flex-row gap-4">
-        <Button type="button" variant="light" onClick={() => append({ grant_name: "", grant_description: "" })} disabled={isLoading} className="w-full" icon={<Plus className="w-4 h-4" />}>
+        <Button data-testid="add-grant-button" type="button" variant="light" onClick={() => append({ grant_name: "", grant_description: "" })} disabled={isLoading} className="w-full" icon={<Plus className="w-4 h-4" />}>
           Add Another Grant
         </Button>
-        <Button type="submit" variant="primary" disabled={isLoading} className="w-full">
+        <Button data-testid="submit-manual-button" type="submit" variant="primary" disabled={isLoading} className="w-full">
           {isLoading ? "Submitting..." : `Submit ${fields.length} Grant(s)`}
         </Button>
       </div>

@@ -102,15 +102,16 @@ export const JsonUploadGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) =
         </div>
 
         <label
+          data-testid="file-upload-zone"
           htmlFor="json-upload"
           className={`flex flex-col items-center justify-center w-full h-32 px-4 py-6 bg-white border-2 border-slate-300 border-dashed rounded-lg cursor-pointer hover:bg-slate-50 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           <UploadCloud className="w-8 h-8 text-slate-500" />
           <span className="mt-2 text-sm font-medium text-slate-600">{isLoading ? "Processing..." : "Click to select JSON file"}</span>
         </label>
-        <input id="json-upload" type="file" accept=".json" className="hidden" onChange={handleFileChange} disabled={isLoading} />
+        <input data-testid="file-input" id="json-upload" type="file" accept=".json" className="hidden" onChange={handleFileChange} disabled={isLoading} />
         {fileError && (
-          <p className="text-sm text-red-600 flex items-center justify-center gap-2">
+          <p data-testid="file-error-message" className="text-sm text-red-600 flex items-center justify-center gap-2">
             <AlertTriangle className="w-4 h-4" />
             {fileError}
           </p>
@@ -121,7 +122,7 @@ export const JsonUploadGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) =
 
   // --- View 2: Confirmation Step ---
   return (
-    <div className="space-y-4">
+    <div data-testid="confirmation-view" className="space-y-4">
       <div className="p-4 border border-green-300 bg-green-50 rounded-lg">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
@@ -133,7 +134,7 @@ export const JsonUploadGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) =
               </p>
             </div>
           </div>
-          <Button type="button" variant="light" onClick={handleCancel} disabled={isLoading} className="!w-auto !p-2" aria-label="Cancel upload">
+          <Button data-testid="cancel-upload-button" type="button" variant="light" onClick={handleCancel} disabled={isLoading} className="!w-auto !p-2" aria-label="Cancel upload">
             <X className="w-4 h-4" />
           </Button>
         </div>
@@ -151,7 +152,7 @@ export const JsonUploadGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) =
         </ul>
       </div>
 
-      <Button type="button" variant="primary" onClick={handleConfirmSubmit} disabled={isLoading} className="w-full">
+      <Button data-testid="confirm-upload-button" type="button" variant="primary" onClick={handleConfirmSubmit} disabled={isLoading} className="w-full">
         {isLoading ? "Submitting..." : `Confirm and Submit ${parsedGrants.length} Grant(s)`}
       </Button>
     </div>

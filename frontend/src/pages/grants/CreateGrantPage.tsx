@@ -47,10 +47,10 @@ const CreateGrantPage: React.FC = () => {
 
       {/* --- Tab Switcher --- */}
       <div className="flex border-b border-slate-200 mb-6">
-        <button onClick={() => setEntryMode("manual")} className={`py-2 px-4 text-sm font-medium ${entryMode === "manual" ? "border-b-2 border-green-500 text-green-600" : "text-slate-500 hover:text-slate-700"}`}>
+        <button data-testid="tab-manual" onClick={() => setEntryMode("manual")} className={`py-2 px-4 text-sm font-medium ${entryMode === "manual" ? "border-b-2 border-green-500 text-green-600" : "text-slate-500 hover:text-slate-700"}`}>
           Manual Entry
         </button>
-        <button onClick={() => setEntryMode("json")} className={`py-2 px-4 text-sm font-medium ${entryMode === "json" ? "border-b-2 border-green-500 text-green-600" : "text-slate-500 hover:text-slate-700"}`}>
+        <button data-testid="tab-json" onClick={() => setEntryMode("json")} className={`py-2 px-4 text-sm font-medium ${entryMode === "json" ? "border-b-2 border-green-500 text-green-600" : "text-slate-500 hover:text-slate-700"}`}>
           Upload JSON
         </button>
       </div>
@@ -63,10 +63,10 @@ const CreateGrantPage: React.FC = () => {
       </div>
 
       {/* --- Global Feedback Area --- */}
-      <div className="text-center pt-4 mt-6 border-t border-slate-200">
+      <div data-testid="feedback-area" className="text-center pt-4 mt-6 border-t border-slate-200">
         {isLoading && <p className="text-sm text-slate-500">Processing request...</p>}
         {error && (
-          <p className="text-sm text-red-600 flex items-center justify-center gap-2">
+          <p data-testid="error-message" className="text-sm text-red-600 flex items-center justify-center gap-2">
             <AlertTriangle className="w-4 h-4" />
             {error}
           </p>
@@ -74,7 +74,7 @@ const CreateGrantPage: React.FC = () => {
         {success && (
           <div className="space-y-2">
             {/* Wrapper div for spacing */}
-            <p className="text-sm text-green-600 flex items-center justify-center gap-2">
+            <p data-testid="success-message" className="text-sm text-green-600 flex items-center justify-center gap-2">
               <CheckCircle className="w-4 h-4" />
               {success}
             </p>
