@@ -1,10 +1,10 @@
 [
   {
-    "grant_name": "Cypress Test Grant 1",
-    "grant_description": "Description for Cypress test grant 1 via JSON upload."
+    "name": "Cypress Test Grant 1",
+    "description": "Description for Cypress test grant 1 via JSON upload."
   },
   {
-    "grant_name": "Cypress Test Grant 2",
-    "grant_description": "Description for Cypress test grant 2 via JSON upload."
+    "name": "Cypress Test Grant 2",
+    "description": "Description for Cypress test grant 2 via JSON upload."
   }
 ]

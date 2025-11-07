@@ -15,8 +15,8 @@ describe("Add Grants - JSON Upload Flow", () => {
         path: "/api/grants",
         data: [
           // Simulate the response for the 2 grants in the fixture
-          { id: 201, grant_name: "Cypress Test Grant 1", grant_description: "Desc 1", tags: [] },
-          { id: 202, grant_name: "Cypress Test Grant 2", grant_description: "Desc 2", tags: [] },
+          { id: 201, name: "Cypress Test Grant 1", description: "Desc 1", tags: [] },
+          { id: 202, name: "Cypress Test Grant 2", description: "Desc 2", tags: [] },
         ],
         errorCode: null,
       },

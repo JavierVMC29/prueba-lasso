@@ -1,6 +1,6 @@
 export interface Grant {
   id: number;
-  grant_name: string;
-  grant_description: string;
+  name: string;
+  description: string;
   tags: string[];
 }

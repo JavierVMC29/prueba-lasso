@@ -194,6 +194,7 @@ def add_grants():
     # --- 7. Respond immediately ---
     data = grants_output_schema.dump(new_grants_list)
     return success_response(data, f"{len(new_grants_list)} grants created. Tagging started in background.", 201)
+
 @api.route('/tags', methods=['GET'])
 def get_all_tags():
     """

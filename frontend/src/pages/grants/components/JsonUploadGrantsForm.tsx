@@ -8,8 +8,8 @@ import { Button } from "@src/components/Button";
 
 // Zod schema for a single grant
 const singleGrantSchema = z.object({
-  grant_name: z.string().min(1, "Grant name is required"),
-  grant_description: z.string().min(1, "Description is required"),
+  name: z.string().min(1, "Grant name is required"),
+  description: z.string().min(1, "Description is required"),
 });
 
 // Zod schema for the JSON upload (array of grants)
@@ -51,7 +51,7 @@ export const JsonUploadGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) =
           // Log developer-friendly error
           console.error(validation.error);
           // Show user-friendly error
-          throw new Error("Invalid JSON structure. Must be an array of {grant_name, grant_description}.");
+          throw new Error("Invalid JSON structure. Must be an array of {name, description}.");
         }
 
         // --- Validation passed, set data for confirmation ---
@@ -146,7 +146,7 @@ export const JsonUploadGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) =
         <ul className="list-disc list-inside text-sm text-slate-500">
           {parsedGrants.map((grant, index) => (
             <li key={index} className="truncate">
-              {grant.grant_name}
+              {grant.name}
             </li>
           ))}
         </ul>

@@ -6,6 +6,8 @@ import json
 from flask import current_app
 from openai import OpenAI, OpenAIError
 
+_openai_client = None
+
 # --- NEW DISPATCHER FUNCTION ---
 
 def tag_grant(description, grant_name):
@@ -59,10 +61,22 @@ def _get_llm_tags(description, grant_name):
     Uses the OpenAI API to assign tags.
     (Private function, called by tag_grant dispatcher)
     """
+    global _openai_client
+
     api_key = current_app.config.get('OPENAI_API_KEY')
     if not api_key:
         current_app.logger.warning("OPENAI_API_KEY is not set. Falling back to simple tagger.")
         return simple_string_match_tagger(description, grant_name)
+    
+    if _openai_client is None:
+        current_app.logger.info("Initializing OpenAI client for the first time.")
+        try:
+            _openai_client = OpenAI(api_key=api_key)
+        except Exception as e:
+             current_app.logger.error(f"Failed to initialize OpenAI client: {e}", exc_info=True)
+             return simple_string_match_tagger(description, grant_name)
+
+    client = _openai_client
     
     try:
         client = OpenAI(api_key=api_key)

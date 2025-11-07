@@ -1,8 +1,6 @@
 import os
 from app.services.predefined_tags import TAG_LIST
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-
 class Config:
     """Configuración base."""
     FLASK_ENV = os.environ.get('FLASK_ENV', 'production')

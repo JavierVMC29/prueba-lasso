@@ -94,7 +94,7 @@ export const LocalStorageGrantRepository: GrantRepository = {
       .filter((grant) => {
         // Name filter (partial, case-insensitive)
         if (dto.name && dto.name.trim()) {
-          return grant.grant_name.toLowerCase().includes(dto.name.toLowerCase());
+          return grant.name.toLowerCase().includes(dto.name.toLowerCase());
         }
         return true;
       })
@@ -106,7 +106,7 @@ export const LocalStorageGrantRepository: GrantRepository = {
         return true;
       })
       // Simulate DB ordering
-      .sort((a, b) => a.grant_name.localeCompare(b.grant_name));
+      .sort((a, b) => a.name.localeCompare(b.name));
 
     // 2. Apply pagination
     const page = dto.page ?? 0;
@@ -161,10 +161,10 @@ export const LocalStorageGrantRepository: GrantRepository = {
       // Simulate backend grant creation
       const newGrant: Grant = {
         id: maxId + 1 + index,
-        grant_name: newGrantData.grant_name,
-        grant_description: newGrantData.grant_description,
+        name: newGrantData.name,
+        description: newGrantData.description,
         // Simulate backend tagging
-        tags: _simulateTagging(newGrantData.grant_description, newGrantData.grant_name),
+        tags: _simulateTagging(newGrantData.description, newGrantData.name),
       };
       newlyCreatedGrants.push(newGrant);
     });

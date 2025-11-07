@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { AlertTriangle, Loader2, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Loader2, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import Select, { type StylesConfig } from "react-select";
 
 import type { Grant } from "@src/modules/grants/domain/entities/grant.entity";
@@ -226,8 +226,8 @@ const ViewGrantsPage: React.FC = () => {
           <div className="grid grid-cols-1 gap-4">
             {grants.map((grant) => (
               <div key={grant.id} className="p-5 bg-white rounded-lg shadow border border-slate-200">
-                <h2 className="text-xl font-semibold text-slate-800">{grant.grant_name}</h2>
-                <p className="text-sm text-slate-600 mt-2">{grant.grant_description}</p>
+                <h2 className="text-xl font-semibold text-slate-800">{grant.name}</h2>
+                <p className="text-sm text-slate-600 mt-2">{grant.description}</p>
                 {grant.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-4">
                     {grant.tags.map((tag) => (

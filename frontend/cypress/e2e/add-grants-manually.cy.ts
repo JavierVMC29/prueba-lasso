@@ -16,8 +16,8 @@ describe("Add Grants - Manual Entry Flow", () => {
         path: "/api/grants",
         data: [
           // Simulate the response for 2 grants
-          { id: 101, grant_name: "Manual Grant One", grant_description: "Desc 1", tags: [] },
-          { id: 102, grant_name: "Manual Grant Two", grant_description: "Desc 2", tags: [] },
+          { id: 101, name: "Manual Grant One", grant_description: "Desc 1", tags: [] },
+          { id: 102, name: "Manual Grant Two", grant_description: "Desc 2", tags: [] },
         ],
         errorCode: null,
       },
@@ -36,7 +36,7 @@ describe("Add Grants - Manual Entry Flow", () => {
 
     // Check for validation error messages (relies on react-hook-form rendering errors)
     // Adjust selector based on how errors are displayed by TextInput/TextArea
-    cy.get('[data-testid="grant_name_0-error"]') // Usa el id del input + '-error'
+    cy.get('[data-testid="name_0-error"]') // Usa el id del input + '-error'
       .should("contain.text", "Grant name is required");
 
     cy.get('[data-testid="grant_description_0-error"]') // Usa el id del textarea + '-error'

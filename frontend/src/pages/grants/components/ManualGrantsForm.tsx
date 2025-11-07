@@ -12,8 +12,8 @@ import { TextInput } from "@src/components/TextInput";
 
 // Zod schema for a single grant
 const singleGrantSchema = z.object({
-  grant_name: z.string().min(1, "Grant name is required"),
-  grant_description: z.string().min(1, "Description is required"),
+  name: z.string().min(1, "Grant name is required"),
+  description: z.string().min(1, "Description is required"),
 });
 
 // Zod schema for the manual form (array of grants)
@@ -38,7 +38,7 @@ export const ManualGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) => {
   } = useForm<ManualFormData>({
     resolver: zodResolver(manualFormSchema),
     defaultValues: {
-      grants: [{ grant_name: "", grant_description: "" }],
+      grants: [{ name: "", description: "" }],
     },
   });
 
@@ -53,7 +53,7 @@ export const ManualGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) => {
     const success = await onSubmit(data.grants);
     if (success) {
       // Reset form only if submission was successful
-      reset({ grants: [{ grant_name: "", grant_description: "" }] });
+      reset({ grants: [{ name: "", description: "" }] });
     }
   };
 
@@ -64,13 +64,13 @@ export const ManualGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) => {
           <h3 className="font-medium text-slate-600">Grant #{index + 1}</h3>
           <TextInput
             data-testid={`grant-name-${index}`}
-            id={`grant_name_${index}`}
+            id={`name_${index}`}
             label="Grant Name"
             type="text"
             placeholder="e.g., Sustainable Agriculture Research Grant"
             disabled={isLoading}
-            {...register(`grants.${index}.grant_name`)}
-            error={errors.grants?.[index]?.grant_name}
+            {...register(`grants.${index}.name`)}
+            error={errors.grants?.[index]?.name}
           />
 
           <TextArea
@@ -80,8 +80,8 @@ export const ManualGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) => {
             rows={4}
             placeholder="Funding for projects that promote organic farming..."
             disabled={isLoading}
-            {...register(`grants.${index}.grant_description`)}
-            error={errors.grants?.[index]?.grant_description}
+            {...register(`grants.${index}.description`)}
+            error={errors.grants?.[index]?.description}
           />
 
           {fields.length > 1 && (
@@ -94,7 +94,7 @@ export const ManualGrantsForm: React.FC<Props> = ({ isLoading, onSubmit }) => {
 
       {/* Add/Submit Buttons */}
       <div className="flex flex-col sm:flex-row gap-4">
-        <Button data-testid="add-grant-button" type="button" variant="light" onClick={() => append({ grant_name: "", grant_description: "" })} disabled={isLoading} className="w-full" icon={<Plus className="w-4 h-4" />}>
+        <Button data-testid="add-grant-button" type="button" variant="light" onClick={() => append({ name: "", description: "" })} disabled={isLoading} className="w-full" icon={<Plus className="w-4 h-4" />}>
           Add Another Grant
         </Button>
         <Button data-testid="submit-manual-button" type="submit" variant="primary" disabled={isLoading} className="w-full">
