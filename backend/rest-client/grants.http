@@ -14,12 +14,12 @@ Content-Type: application/json
 
 [
     {
-      "grant_name": "New Grant",
-      "grant_description": "This is a new grant."
+      "name": "New Grant",
+      "description": "This is a new grant."
     },
     {
-      "grant_name": "New Grant",
-      "grant_description": "This is a new grant."
+      "name": "New Grant",
+      "description": "This is a new grant."
     }
 ]
 

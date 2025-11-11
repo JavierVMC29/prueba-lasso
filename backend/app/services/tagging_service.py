@@ -10,7 +10,7 @@ _openai_client = None
 
 # --- NEW DISPATCHER FUNCTION ---
 
-def tag_grant(description, grant_name):
+def tag_grant(description, name):
     """
     Dispatches the tagging request to the method specified in the config.
     Falls back to 'simple' if 'llm' is configured but fails.
@@ -21,19 +21,19 @@ def tag_grant(description, grant_name):
         try:
             # Try to get tags from the LLM
             current_app.logger.debug("Using LLM tagger for tagging.")
-            return _get_llm_tags(description, grant_name)
+            return _get_llm_tags(description, name)
         except Exception as e:
             # If LLM tagging fails for any reason, log it and fall back
             current_app.logger.error(f"LLM tagging failed: {e}. Falling back to simple tagger.", exc_info=True)
-            return simple_string_match_tagger(description, grant_name)
+            return simple_string_match_tagger(description, name)
     
     # Default to simple string matching
     current_app.logger.debug("Using simple string match tagger for tagging.")
-    return simple_string_match_tagger(description, grant_name)
+    return simple_string_match_tagger(description, name)
 
 # --- SIMPLE (DEFAULT) TAGGER ---
 
-def simple_string_match_tagger(description, grant_name):
+def simple_string_match_tagger(description, name):
     """
     Performs a simple, case-insensitive string match against the
     grant description and name.
@@ -42,7 +42,7 @@ def simple_string_match_tagger(description, grant_name):
     found_tags = set()
 
     # Combine name and description for searching
-    text_to_search = description.lower() + " " + grant_name.lower()
+    text_to_search = description.lower() + " " + name.lower()
 
     for tag in predefined_tags:
         # Use regex \b (word boundary) to find the exact word/tag
@@ -56,7 +56,7 @@ def simple_string_match_tagger(description, grant_name):
 
 # --- LLM (ADVANCED) TAGGER ---
 
-def _get_llm_tags(description, grant_name):
+def _get_llm_tags(description, name):
     """
     Uses the OpenAI API to assign tags.
     (Private function, called by tag_grant dispatcher)
@@ -66,7 +66,7 @@ def _get_llm_tags(description, grant_name):
     api_key = current_app.config.get('OPENAI_API_KEY')
     if not api_key:
         current_app.logger.warning("OPENAI_API_KEY is not set. Falling back to simple tagger.")
-        return simple_string_match_tagger(description, grant_name)
+        return simple_string_match_tagger(description, name)
     
     if _openai_client is None:
         current_app.logger.info("Initializing OpenAI client for the first time.")
@@ -74,7 +74,7 @@ def _get_llm_tags(description, grant_name):
             _openai_client = OpenAI(api_key=api_key)
         except Exception as e:
              current_app.logger.error(f"Failed to initialize OpenAI client: {e}", exc_info=True)
-             return simple_string_match_tagger(description, grant_name)
+             return simple_string_match_tagger(description, name)
 
     client = _openai_client
     
@@ -98,7 +98,7 @@ def _get_llm_tags(description, grant_name):
         
         user_prompt = f"""
         Please categorize the following grant:
-        Grant Name: {grant_name}
+        Grant Name: {name}
         Description: {description}
         """
 
@@ -131,8 +131,8 @@ def _get_llm_tags(description, grant_name):
     except OpenAIError as e:
         current_app.logger.error(f"OpenAI API error: {e}", exc_info=True)
         # Fallback to simple tagger on API failure
-        return simple_string_match_tagger(description, grant_name)
+        return simple_string_match_tagger(description, name)
     except (json.JSONDecodeError, ValueError) as e:
         current_app.logger.error(f"Failed to parse LLM response: {e}", exc_info=True)
         # Fallback to simple tagger on parsing failure
-        return simple_string_match_tagger(description, grant_name)
+        return simple_string_match_tagger(description, name)

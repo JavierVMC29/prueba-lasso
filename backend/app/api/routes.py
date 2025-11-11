@@ -28,12 +28,12 @@ def run_background_tagging(app, grant_ids):
                     current_app.logger.warning(f"[BG-TASK] Grant {grant_id} not found for tagging.")
                     continue
 
-                current_app.logger.debug(f"[BG-TASK] Tagging grant: {grant.grant_name}")
+                current_app.logger.debug(f"[BG-TASK] Tagging grant: {grant.name}")
                 
                 # --- The slow LLM call ---
                 tag_names = tag_grant(
-                    description=grant.grant_description,
-                    grant_name=grant.grant_name
+                    description=grant.description,
+                    name=grant.name
                 )
                 
                 # Get or create Tag objects
@@ -84,7 +84,7 @@ def get_grants():
 
     # --- 2. Apply filters ---
     if name_filter:
-        query = query.filter(Grant.grant_name.ilike(f'%{name_filter}%'))
+        query = query.filter(Grant.name.ilike(f'%{name_filter}%'))
 
     if tag_filters:
         # Find grants that have ALL specified tags
@@ -95,7 +95,7 @@ def get_grants():
     # We add 1 to the page because Flask-SQLAlchemy's paginate is 1-indexed,
     # but our API standard is 0-indexed.
     try:
-        paginated_result = query.order_by(Grant.grant_name.asc()).paginate(
+        paginated_result = query.order_by(Grant.name.asc()).paginate(
             page=page + 1, 
             per_page=size, 
             error_out=False # Returns empty list if page is out of range
@@ -150,16 +150,16 @@ def add_grants():
     grant_ids_to_tag = [] # --- 3. List of IDs for the background thread
     
     for grant_data in validated_data:
-        if Grant.query.filter_by(grant_name=grant_data['grant_name']).first():
-            current_app.logger.debug(f"Skipping duplicate grant: {grant_data['grant_name']}")
+        if Grant.query.filter_by(name=grant_data['name']).first():
+            current_app.logger.debug(f"Skipping duplicate grant: {grant_data['name']}")
             continue 
 
-        current_app.logger.debug(f"Processing new grant: {grant_data['grant_name']}")
+        current_app.logger.debug(f"Processing new grant: {grant_data['name']}")
         
         # --- 4. Create the grant WITHOUT tags ---
         new_grant = Grant(
-            grant_name=grant_data['grant_name'],
-            grant_description=grant_data['grant_description'],
+            name=grant_data['name'],
+            description=grant_data['description'],
             tags=[]  # Created with an empty list
         )
         db.session.add(new_grant)

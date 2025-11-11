@@ -5,10 +5,8 @@ from marshmallow import fields
 
 # Esquema para validar el JSON de ENTRADA
 class GrantInputSchema(ma.Schema):
-    grant_name = fields.Str(required=True)
-    grant_description = fields.Str(required=True)
-    website_urls = fields.List(fields.Str(), required=False, allow_none=True)
-    document_urls = fields.List(fields.Str(), required=False, allow_none=True)
+    name = fields.Str(required=True)
+    description = fields.Str(required=True)
 
 
 # Esquema para serializar (convertir a JSON) un objeto Tag
@@ -28,7 +26,7 @@ class GrantOutputSchema(ma.SQLAlchemyAutoSchema):
 
     class Meta:
         model = Grant
-        fields = ("id", "grant_name", "grant_description", "tags")
+        fields = ("id", "name", "description", "tags")
         load_instance = True
 
     def get_tag_names(self, obj):

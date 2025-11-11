@@ -14,8 +14,8 @@ class Grant(db.Model):
     __tablename__ = 'grants'
 
     id = db.Column(db.Integer, primary_key=True)
-    grant_name = db.Column(db.String(255), unique=True, nullable=False)
-    grant_description = db.Column(db.Text, nullable=False)
+    name = db.Column(db.String(255), unique=True, nullable=False)
+    description = db.Column(db.Text, nullable=False)
 
     # Many-to-Many relationship
     tags = db.relationship(
@@ -26,7 +26,7 @@ class Grant(db.Model):
     )
 
     def __repr__(self):
-        return f"<Grant {self.grant_name}>"
+        return f"<Grant {self.name}>"
 
 
 class Tag(db.Model):
